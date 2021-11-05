@@ -1,62 +1,60 @@
+
+// Description: input AT commands via serial monitor to learn how to use 4G module
+// version:v1.0
+// Author:Vincent
+// web: http://www.makerfabs.com
+
+// This version is modify for SIM7600
+// If define MODE_1A
+// When "1A" or "1A" is entered, 0x1A is sent to the module.
+// When sending SNS information, you need to send 0x1A to end the input.
+
 #include <stdio.h>
 #include <string.h>
 
-//Description: input AT commands via serial monitor to learn how to use A9/A9G module
-//version:v1.0
-//Author:Charlin
-//web: http://www.makerfabs.com
-//
-
 #define DEBUG true
-#define PWR_KEY 5
-#define RST_KEY 6
-#define DTR_PIN 9 // D9高
-#define RI_PIN 8  // D8输入
+#define MODE_1A
 
-bool ModuleState = false;
+#define DTR_PIN 9
+#define RI_PIN 8
+
+#define LTE_PWRKEY_PIN 5
+#define LTE_RESET_PIN 6
+#define LTE_FLIGHT_PIN 7
+
 String from_usb = "";
 
 void setup()
 {
-    pinMode(PWR_KEY, OUTPUT);
-    pinMode(RST_KEY, OUTPUT);
-    pinMode(DTR_PIN, OUTPUT);
-    pinMode(RI_PIN, INPUT);
-
-    digitalWrite(RST_KEY, LOW);
-    digitalWrite(PWR_KEY, HIGH);
-    digitalWrite(DTR_PIN, HIGH);
-
-    Serial1.begin(115200);
-    digitalWrite(PWR_KEY, LOW);
-    delay(3000);
-    digitalWrite(PWR_KEY, HIGH);
-    delay(10000);
-
     SerialUSB.begin(115200);
     //while (!SerialUSB)
     {
-        ; // wait for serial port to connect
+        ; // wait for Arduino serial Monitor port to connect
     }
 
-    ModuleState = moduleStateCheck();
-    if (ModuleState == false) //if it's off, turn on it.
-    {
-        digitalWrite(PWR_KEY, LOW);
-        delay(3000);
-        digitalWrite(PWR_KEY, HIGH);
-        delay(10000);
-        SerialUSB.println("Now turnning the SIM7600 on.");
-    }
+    delay(100);
 
-    //sendData("AT+CCID", 3000, DEBUG);
-    //sendData("AT+CREG?", 3000, DEBUG);
-    //sendData("AT+CGATT=1", 1000, DEBUG);
-    //sendData("AT+CGACT=1,1", 1000, DEBUG);
-    //sendData("AT+CGDCONT=1,\"IP\",\"CMNET\"", 1000, DEBUG);
+    Serial1.begin(115200);
 
-    //sendData("AT+CIPSTART=\"TCP\",\"www.mirocast.com\",80", 2000, DEBUG);
-    SerialUSB.println("Maduino A9/A9G Test Begin!");
+    //Serial1.begin(UART_BAUD, SERIAL_8N1, MODEM_RXD, MODEM_TXD);
+
+    pinMode(LTE_RESET_PIN, OUTPUT);
+    digitalWrite(LTE_RESET_PIN, LOW);
+
+    pinMode(LTE_PWRKEY_PIN, OUTPUT);
+    digitalWrite(LTE_RESET_PIN, LOW);
+    delay(100);
+    digitalWrite(LTE_PWRKEY_PIN, HIGH);
+    delay(2000);
+    digitalWrite(LTE_PWRKEY_PIN, LOW);
+
+    pinMode(LTE_FLIGHT_PIN, OUTPUT);
+    digitalWrite(LTE_FLIGHT_PIN, LOW); //Normal Mode
+    // digitalWrite(LTE_FLIGHT_PIN, HIGH);//Flight Mode
+
+    SerialUSB.println("Maduino Zero 4G Test Start!");
+
+    sendData("AT+CGMM", 3000, DEBUG);
 }
 
 void loop()
@@ -68,6 +66,7 @@ void loop()
     }
     while (SerialUSB.available() > 0)
     {
+#ifdef MODE_1A
         int c = -1;
         c = SerialUSB.read();
         if (c != '\n' && c != '\r')
@@ -78,14 +77,14 @@ void loop()
         {
             if (!from_usb.equals(""))
             {
-                //SerialUSB.println(from_usb);
                 sendData(from_usb, 0, DEBUG);
                 from_usb = "";
             }
         }
-
-        // Serial1.write(SerialUSB.read());
-        // yield();
+#else
+        Serial1.write(SerialUSB.read());
+        yield();
+#endif
     }
 }
 
