@@ -94,19 +94,15 @@ Maduino Zero 4G LTE CAT1 integrated two types of the 4G LTE module SIM7600A or S
 
 ## Example List
 
-### Camera
+### AT_command_demo
 
-This is a test demo. You can check that ESP32, screen, touch, SD card reader and the camera function properly.
+Input AT commands via serial monitor to learn how to use 4G module. This version is modify for SIM7600.
 
-- Copy logo.bmp to sd card.
-- Insert SD card.
-- Upload code to ESP32.
-- Restart ESP32.
-- Screen will show "TOUCH TO START TEST", please touch screen.
-- Will show logo picture in SD card.
-- And ESP32 will open camera, and show on screen.
+If define MODE_1A, when "1A" or "1A" is entered, 0x1A is sent to the module.
 
+When sending SNS information, you need to send 0x1A to end the input.
 
+![at_demo](md_pic/at_demo.jpg)
 
 
 ## AT Command Explain
