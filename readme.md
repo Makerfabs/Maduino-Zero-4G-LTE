@@ -104,6 +104,14 @@ When sending SNS information, you need to send 0x1A to end the input.
 
 ![at_demo](md_pic/at_demo.jpg)
 
+### 4G_HTTP_DHT11_V1.0
+
+Air temperature and humidity information detected by the DHT11 module is sent to ThingSpeak using a cellular network.
+
+![](md_pic/dht11.jpg)
+
+
+
 
 ## AT Command Explain
 
@@ -169,20 +177,20 @@ Please consult the operator for the phone number of the SMS center. The number "
 
 ### Hardware Check
 
-- 进入root账户，后续所有操作都在root账户下进行。
+- Log in to the root account and perform all subsequent operations as the root account.
 
 ```shell
 sudo su
 ```
 
-- 安装minicom串口工具
+- Install the Minicom serial port tool.
 
 
 ```shell
 apt-get install minicom
 ```
 
-- 查看串口设备，AT指令串口，为/dev/ttyUSB2
+- To view the serial port device, AT command serial port: "/dev/ttyUSB2"
 
 ```shell
 ls /dev/ttyUSB*
@@ -191,66 +199,66 @@ ls /dev/ttyUSB*
 ![](md_pic/pi1.jpg)
 
 
-- 用minicom打开串口
+- Open the serial port with Minicom
 
 ```shell
 minicom -D /dev/ttyUSB2
 ```
 
-- 在minicom中输入AT指令
+- Enter the AT command in minicom
 
 ```shell
-# 强制设置为4G上网
+# Forcibly set the Internet access to 4G
 AT+CNMP=38
-# 查询网络质量
+# Querying network Quality
 AT+CSQ
-# 查询网络注册状
+# Query the network registry
 AT+CREG?
-# 查询网络运营商
+# Querying Network Carrier Information
 AT+COPS?
-# 查询网络波段
+# Querying network band
 AT+CPSI?
 ```
 
 ![](md_pic/pi2.jpg)
 
-- 按下Ctrl + A，然后按X退出minicom
+- \- Press Ctrl + A, then X to exit Minicom
 
-至此，SIM7600CE和Raspberry Pi硬件连接正常，网络连接正常。本案例使用了中国移动的4G卡，其余区域如果无法使用，请咨询SIMCOM。
+At this point, the hardware and network connections between SIM7600CE and Raspberry Pi are normal. This case uses the 4G card of China Mobile. If you cannot use the other areas, please ask SIMCOM. 
 
 
 
 ### Driver Install
 
-Raspberry Pi的Raspbian系统，默认是安装了高通的用于wwan0网口的驱动模块文件。对于Raspberry Pi，需要先卸载该驱动(不然会与新装的驱动冲突)，再安装上simcom的用于wwan0网口的驱动模块文件.
+By default, Raspbian is installed with Qualcomm driver files for the wwan0 network port. For Raspberry Pi, you need to uninstall the driver first (otherwise it will conflict with the new driver), and then install the Simcom's driver for wwan0.
 
-- 使用查看系统驱动
+- Check system drivers
 
 ```shell
 lsmod
 ```
 
 ![](md_pic/pi4.jpg)
-- 卸载已有驱动
+- Uninstalling an existing driver
 
 ```shell
 rmmod qmi_wwan
 ```
 
-- 安装树莓派内核头文件
+- Install the raspberry PI kernel header file
 ```shell
 apt install raspberrypi-kernel-headers
 ```
-- 下载SIMCOM官方提供的驱动模块源程序
+- Download the official driver program provided by SIMCOM
 ```shell
 wget https://www.waveshare.net/w/upload/0/00/SIM7600_NDIS.7z
 ```
-- 安装解压工具并解压
+- Install the decompression tool and decompress it
 ```shell
 apt-get install p7zip-full
 7z x SIM7600_NDIS.7z -r -o ./SIM7600_NDIS
 ```
-- 进入驱动文件夹，并编译
+- Go to the driver folder and compile
 
 ```shell
 cd SIM7600_NDIS
@@ -259,13 +267,13 @@ make
 ls
 ```
 
-安装该驱动模块文件
+- Install the driver module file
 
 ```shell
 insmod simcom_wwan.ko
 ```
 
-- 查看是否安装成功
+- Check whether the installation is successful
 ```shell
 lsmod
 ```
@@ -274,31 +282,31 @@ lsmod
 
 
 
-### 开始拨号，并分配IP
+### Assign IP addresses
 
-- 此时，可看到已经出现wwan0网口
+- In this case, the wwan0 network port is displayed
 
 ```shell
 ifconfig -a
 ```
-- 但是该网口并未分配IP地址，如需分配IP，需要先开启网口
+- However, no IP address is assigned to the network port. To assign an IP address, enable the network port first
 
 ```shell
 ifconfig wwan0 up
 ```
-- 然后，通过minicom，输入AT指令开始拨号
+- Then, through Minicom, enter the AT command to start dialing
 
 ```shell
 minicom -D /dev/ttyUSB2
 AT$QCRMCALL=1,1
 ```
-- 最后，退出minicom，分配IP
+- Finally, exit Minicom and assign IP
 
 ```shell
 apt-get install udhcpc
 udhcpc -i wwan0
 ```
-- 使用Ping命令测试网卡是否联网
+- Run the Ping command to check whether the network adapter is connected
 
 ```shell
 ping -I wwan0 www.baidu.com
