@@ -318,8 +318,6 @@ ping -I wwan0 www.baidu.com
 ```
 
 ![](md_pic/pi5.jpg)
-<<<<<<< Updated upstream
-=======
 
 
 
@@ -334,6 +332,7 @@ ping -I wwan0 www.baidu.com
 ![](md_pic/win1.jpg)
 
 - If the COM port is identified in the figure above, but an exclamation mark appears, it indicates that the driver is not installed.
+- Driver is in "Maduino-Zero-4G-LTE\win_driver\SIM7600X-Driver.7z"
 - Open Device Manager - > Other equipment - >“SimTech,Incorporated”- >  Update the driver - > Browse my computer to find driver files - > Select a path for saving the driver file based on the system- >The installation is complete.
 
 ![](md_pic/win2.jpg)
@@ -344,4 +343,3 @@ ping -I wwan0 www.baidu.com
 - The network icon will then appear as a cellular network.
 
 ![](md_pic/wwan.jpg)
->>>>>>> Stashed changes
