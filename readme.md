@@ -89,6 +89,9 @@ Maduino Zero 4G LTE integrated two types of the 4G LTE CAT4 module SIM7600A-H or
 - Connect all antennas
 - Insert a SIM card
 - Connect **USB for MCU** to PC
+
+![](md_pic/connectarduino.jpg)
+
 - Upload codes, select "Arduino Zero" and "Native USB"
 
 
@@ -172,6 +175,8 @@ Please consult the operator for the phone number of the SMS center. The number "
 - Connect all antennas
 - Insert a SIM card
 - Connect **USB for MCU** to Raspberry Pi USB
+
+![](md_pic/connectpi.jpg)
 
 ## Used as a 4G network adapter
 
@@ -313,3 +318,30 @@ ping -I wwan0 www.baidu.com
 ```
 
 ![](md_pic/pi5.jpg)
+<<<<<<< Updated upstream
+=======
+
+
+
+# Usage （Windows）
+
+- Connect one end of USB cable to USB interface of PC and the other end to USB_LTE interface of Maduino Zero 4G LTE.
+
+![](md_pic/connectwin.jpg)
+
+- Open the device manager and you can see these COM ports.
+
+![](md_pic/win1.jpg)
+
+- If the COM port is identified in the figure above, but an exclamation mark appears, it indicates that the driver is not installed.
+- Open Device Manager - > Other equipment - >“SimTech,Incorporated”- >  Update the driver - > Browse my computer to find driver files - > Select a path for saving the driver file based on the system- >The installation is complete.
+
+![](md_pic/win2.jpg)
+
+![](md_pic/win3.jpg)
+
+- Install the driver for each exclamation point
+- The network icon will then appear as a cellular network.
+
+![](md_pic/wwan.jpg)
+>>>>>>> Stashed changes
