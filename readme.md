@@ -2,11 +2,11 @@
 
 ```c++
 /*
-Version:		V1.0
+Version:		V1.1
 Author:			Vincent
 Create Date:	2021/11/5
 Note:
-	
+	2022/12/30	V1.1:	Change Wiki link.
 */
 ```
 ![main](md_pic/main.jpg)
@@ -18,14 +18,14 @@ Note:
 
 [Makerfabs home page](https://www.makerfabs.com/)
 
-[Makerfabs Wiki](https://makerfabs.com/wiki/index.php?title=Main_Page)
+[Makerfabs Wiki](https://wiki.makerfabs.com/)
 
 # Maduino Zero 4G LTE
 ## Intruduce
 
 Product Link ：[Maduino Zero 4G LTE(SIM7600X)](https://www.makerfabs.com/maduino-zero-4g-lte-sim7600.html) 
 
-Wiki Link : [Maduino Zero 4G LTE](https://www.makerfabs.com/wiki/index.php?title=Maduino_Zero_4G_LTE) 
+Wiki Link : [Maduino Zero 4G LTE](http://wiki.makerfabs.com/Maduino_Zero_4G_LTE.html) 
 
 Maduino Zero 4G LTE integrated two types of the 4G LTE CAT4 module SIM7600A-H or SIM7600E-H, SIM7600A-H/SIM7600E-H is a complete multi-band LTE-FDD/LTE-TDD/HSPA+/UMTS/EDGE/GPRS/GSM module solution in LCC type which supports LTE CAT4 up to 150Mbps for downlink and 50Mbps for uplink data transfer, much faster and popular than 2G/3G.
 
